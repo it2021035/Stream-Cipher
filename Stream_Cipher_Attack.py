@@ -1,5 +1,5 @@
-plainText1 = "I use "
-plainText2 = "Are lol XD BOY?"
+plainText1 = "I use the same IV because i am lazy"
+plainText2 = "But now the can see the message"
 
 IV = int("01001011", 2)
 
