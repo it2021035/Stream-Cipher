@@ -1,19 +1,18 @@
-plainText1 = "I use unsafe steam ciphers"
-plainText2 = "Are you sure thow?"
+plainText1 = "I use "
+plainText2 = "Are lol XD BOY?"
 
 IV = int("01001011", 2)
 
-def stream_cipher (plainText1, plainText2, IV):
+def stream_cipher(plainText1, plainText2, IV):
     cipherText1 = []
     cipherText2 = []
 
     bit_list1 = [format(num, '08b') for num in list(plainText1.encode('ascii'))]
     bit_list2 = [format(num, '08b') for num in list(plainText2.encode('ascii'))]
 
-
     for i in range(len(bit_list1)):
-        xor_result = int(bit_list1[i], 2) ^ IV  # XOR in integer form
-        cipherText1.append(format(xor_result, '08b'))  # Back to 8-bit binary
+        xor_result = int(bit_list1[i], 2) ^ IV
+        cipherText1.append(format(xor_result, '08b'))
 
     for i in range(len(bit_list2)):
         xor_result = int(bit_list2[i], 2) ^ IV
@@ -21,22 +20,20 @@ def stream_cipher (plainText1, plainText2, IV):
 
     return cipherText1, cipherText2
 
-#wokr in progress
 def stream_cipher_attack(cipherText1, cipherText2, knownPlainText):
-    # XOR the two cipher texts to get the XOR of the two plaintexts
-    xor_result = [int(cipherText1[i], 2) ^ int(cipherText2[i], 2) for i in range(len(cipherText2))]
+    if len(cipherText1)>len(cipherText2):
+        xor_result = [int(cipherText1[i], 2) ^ int(cipherText2[i], 2) for i in range(len(cipherText2))]
+    else :
+        xor_result = [int(cipherText1[i], 2) ^ int(cipherText2[i], 2) for i in range(len(cipherText1))]
 
-    xor_result.append(format(xor_result, '08b'))
+    knownPlainText_bytes = [ord(c) for c in knownPlainText]
+    recovered_bytes = [xor_result[i] ^ knownPlainText_bytes[i] for i in range(len(xor_result))]
+    return ''.join(chr(b) for b in recovered_bytes)
 
-    knownPlainText = [format(num, '08b') for num in list(knownPlainText.encode('ascii'))]
-
-    # XOR the known plaintext with the xor_result to get the keystream
-    keystream  = [int(xor_result[i], 2) ^ int(knownPlainText[i], 2) for i in range(len(knownPlainText))]
-
-
-    return keystream
-
-
+# Encrypt
 cipher1, cipher2 = stream_cipher(plainText1, plainText2, IV)
 
-print(stream_cipher_attack(cipher1, cipher2, plainText1))
+# Attack using known plainText1 to recover plainText2
+recovered_plaintext2 = stream_cipher_attack(cipher1, cipher2, plainText1)
+
+print("Recovered Plaintext 2:", recovered_plaintext2)
