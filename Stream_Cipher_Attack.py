@@ -1,5 +1,5 @@
-plainText1 = "I use the same IV because i am lazy"
-plainText2 = "But now they can see the message"
+plainText1 = "12345"
+plainText2 = "33253"
 
 IV = int("01001011", 2)
 
@@ -20,20 +20,21 @@ def stream_cipher(plainText1, plainText2, IV):
 
     return cipherText1, cipherText2
 
-def stream_cipher_attack(cipherText1, cipherText2, knownPlainText):
+def stream_cipher_attack(cipherText1, cipherText2):
     if len(cipherText1)>len(cipherText2):
         xor_result = [int(cipherText1[i], 2) ^ int(cipherText2[i], 2) for i in range(len(cipherText2))]
     else :
         xor_result = [int(cipherText1[i], 2) ^ int(cipherText2[i], 2) for i in range(len(cipherText1))]
 
-    knownPlainText_bytes = [ord(c) for c in knownPlainText]
-    recovered_bytes = [xor_result[i] ^ knownPlainText_bytes[i] for i in range(len(xor_result))]
-    return ''.join(chr(b) for b in recovered_bytes)
+    charset="0123456789"
+    prediction=[]
+    
+    while prediction != xor_result:
+        print()
+
+    return prediction
 
 # Encrypt
 cipher1, cipher2 = stream_cipher(plainText1, plainText2, IV)
 
-# Attack using known plainText1 to recover plainText2
-recovered_plaintext2 = stream_cipher_attack(cipher1, cipher2, plainText1)
-
-print("Recovered Plaintext 2:", recovered_plaintext2)
+print( stream_cipher_attack(cipher1,cipher2))
