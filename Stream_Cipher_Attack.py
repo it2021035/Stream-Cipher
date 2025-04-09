@@ -1,4 +1,4 @@
-plainText1 = "I use the same IV "
+plainText1 = "I use the same IV because I am lazy"
 plainText2 = "But now they can see the message"
 
 IV = int("01001011", 2)
