@@ -39,7 +39,7 @@ def stream_cipher(plainText, IV):
 
 
 p1 = "123234"
-p2 = "432234"
+p2 = "43"
 p3 = "789345"
 
 IV = int("10110101", 2)
